@@ -1,113 +1,196 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'record.dart';
+import 'dart:convert';
 void main() {
-  runApp(GestureApp());
+  runApp(MyApp());
 }
 
-class GestureApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appName = 'Gesture Collection';
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: appName,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: HomeScreen(title: 'Gesture Collection'),
-    );
-  }
-}
+        // Define the default brightness and colors.
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.title}) : super(key: key);
+        // Define the default font family.
+        fontFamily: 'Raleway',
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter += 4;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the HomeScreen object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Raleway'),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      home: MyHomePage(
+        title: appName,
+      ),
+    );
+  }
+ }
+
+class MyHomePage extends StatelessWidget {
+   final String title;
+   void _navigateToNextScreen(BuildContext context) {
+     Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewScreen()));
+   }
+  MyHomePage({Key key, @required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // var json = JsonDecoder().convert(data);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+
+            children: <Widget>[
+              SizedBox(height: 100),
+              new Row(  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+              Expanded(child: Container(
+                                  height :75,
+                                  child: MyStatefulWidget())),],),
+              new Row(  mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[Expanded(child: Container(height : 75,
+                    child: FloatingActionButton.extended(
+                      heroTag: 'next1',
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.black,
+                    onPressed: ()=>  _asyncInputDialog(context),
+
+
+                      icon: Icon(Icons.add),
+                    label: Text('Add Label'),
+                    ),
+
+             ),),
+    ],
+             ),
+              new Row(  mainAxisAlignment: MainAxisAlignment.spaceEvenly,children: <Widget>[Expanded(child: Container(height : 75,
+                child: FloatingActionButton.extended(
+                  heroTag: 'next2',
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.black,
+                  onPressed:() { _navigateToNextScreen(context);},
+
+                  icon: Icon(Icons.play_arrow),
+                  label: Text('Start Recording'),
+                ),
+
+              ),),
+              ],),
+],
+      ),
+
     );
   }
 }
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  String dropdownValue = 'Select Label';
+  List<String> item = <String>['Select Label', 'Running', 'Standing', 'Stairs'];
+  // Future<void> addItemToList() async {
+  //   final String name = await _asyncInputDialog(context);
+  //   setState(() {
+  //     item.insert(0,name);
+  //
+  //   });
+  // }
+  // var tagsJson = jsonDecode(arrayText)['tags'];
+  // List<String> tags = tagsJson != null ? List.from(tagsJson) : null;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_downward),
+      iconSize: 30,
+      elevation: 16,
+      style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: 'Raleway' ,fontWeight: FontWeight.bold),
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        });
+      },
+      items: item.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+}
+
+
+Future _asyncInputDialog(BuildContext context) async {
+  String gestureName = '';
+
+
+  return showDialog(
+    context: context,
+    barrierDismissible: false, // dialog is dismissible with a tap on the barrier
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Input Label Name'),
+        content: new Row(
+          children: [
+            new Expanded(
+                child: new TextField(
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                      labelText: 'Label', hintText: 'Running'),
+                  onChanged: (value) {
+                    gestureName = value;
+                  },
+                ))
+          ],
+        ),
+        actions: [
+          FlatButton(
+            child: Text('Add'),
+            onPressed: () {
+              Navigator.of(context).pop(gestureName);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+// class label{
+//   final List<String> item = <String>[];
+//   label({this.item});
+// }
+//
+// List<label> parseJosn(String response) {
+//   if(response==null){
+//     return [];
+//   }
+//   final parsed =
+//   json.decode(response.toString()).cast<Map<String, dynamic>>();
+//   return parsed.map<Country>((json) => new Country.fromJson(json)).toList();
+// }
+// }
