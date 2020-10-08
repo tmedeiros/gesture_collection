@@ -15,13 +15,12 @@ class MyApp extends StatelessWidget {
       title: appName,
       theme: ThemeData(
         // Define the default brightness and colors.
-        brightness: Brightness.dark,
-        primaryColor: Colors.lightBlue[800],
+        brightness: Brightness.light,
+        primaryColor: Colors.white,
         accentColor: Colors.cyan[600],
 
         // Define the default font family.
         fontFamily: 'Raleway',
-
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
@@ -105,7 +104,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   String dropdownValue = 'Select Label';
-  List<String> item = <String>['Select Label', 'Running', 'Standing', 'Stairs'];
+
   // Future<void> addItemToList() async {
   //   final String name = await _asyncInputDialog(context);
   //   setState(() {
@@ -115,7 +114,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   // }
   // var tagsJson = jsonDecode(arrayText)['tags'];
   // List<String> tags = tagsJson != null ? List.from(tagsJson) : null;
-
+  List<String> labels = <String>['Select Label', 'Running', 'Standing', 'Walking','Walking_Upstairs','Walking_Downstairs','Laying','Sitting'];
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
@@ -123,7 +122,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       icon: Icon(Icons.arrow_downward),
       iconSize: 30,
       elevation: 16,
-      style: TextStyle(color: Colors.white,fontSize: 20,fontFamily: 'Raleway' ,fontWeight: FontWeight.bold),
+      style: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'Raleway' ,fontWeight: FontWeight.bold),
       underline: Container(
         height: 2,
         color: Colors.black,
@@ -133,7 +132,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           dropdownValue = newValue;
         });
       },
-      items: item.map<DropdownMenuItem<String>>((String value) {
+      items: labels.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
