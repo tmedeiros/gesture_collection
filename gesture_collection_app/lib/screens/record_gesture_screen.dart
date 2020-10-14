@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-class NewScreen extends StatelessWidget {
+
+class RecordGestureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('New Screen')),
+      appBar: AppBar(title: Text('Gesture Recording')),
       body: Center(
         child: Text(
-          'This is a new screen',
+          'Recording in progress..',
           style: TextStyle(fontSize: 24.0),
         ),
       ),
