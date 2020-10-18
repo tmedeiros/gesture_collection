@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+var selectedLabel;
+
 class LabelWidget extends StatefulWidget {
   String newLabel;
   LabelWidget({Key key, @required this.newLabel}) : super(key: key);
+  String labelName = selectedLabel;
 
   @override
   _LabelWidgetState createState() => _LabelWidgetState(newLabel);
@@ -109,6 +112,7 @@ class _LabelWidgetState extends State<LabelWidget> {
             setState(() {
               dropdownValue = labelValue;
               //_newLabel = newValue;
+              selectedLabel = dropdownValue;
             });
           },
           isExpanded: true,

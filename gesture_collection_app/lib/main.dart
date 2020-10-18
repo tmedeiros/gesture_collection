@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/screens/tab_screen.dart';
 import 'screens/record_gesture_screen.dart';
-import 'screens/recording.dart';
+//import 'screens/recording.dart';
 import 'dart:convert';
 
 void main() {

@@ -6,6 +6,7 @@ import 'package:gesture_collection_app/screens/home_screen.dart';
 import 'package:gesture_collection_app/widgets/label_widget.dart';
 import 'package:gesture_collection_app/widgets/new_label_widget_old.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class TabScreen extends StatefulWidget {
   String newLabel;
@@ -53,6 +54,7 @@ class _TabScreenState extends State<TabScreen> {
       _newLabel = newLabel;
     });*/
     updatelabels();
+    createUser();
     super.initState();
   }
 
@@ -181,6 +183,15 @@ class _TabScreenState extends State<TabScreen> {
       labels = _labels;
     } else {
       prefs.setStringList(LABELS, this.labels);
+    }
+  }
+
+  Future<void> createUser() async {
+    prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString("userId");
+    if (userId == null || userId == '') {
+      var uuid = Uuid();
+      prefs.setString("userId", uuid.v1());
     }
   }
 }

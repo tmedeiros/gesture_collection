@@ -7,7 +7,7 @@ import 'package:gesture_collection_app/models/gesture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GestureService extends Service {
-  static const url = 'https://gesture-collection.firebaseio.com/gestures.json';
+  static const url = 'https://gesturedata-76273.firebaseio.com/gestures.json';
 
   List<Gesture> _gestures = [];
 
@@ -16,7 +16,6 @@ class GestureService extends Service {
       final response = await http.post(url,
           body: json.encode({
             'userId': gesture.userId,
-            'id': gesture.id,
             'label': gesture.label,
             'xData': gesture.xData,
             'yData': gesture.yData,
@@ -36,7 +35,6 @@ class GestureService extends Service {
       extractedData.forEach((userId, gestureData) {
         loadedGestures.add(Gesture(
           userId,
-          gestureData['id'],
           gestureData['label'],
           gestureData['xData'],
           gestureData['yData'],
@@ -52,7 +50,23 @@ class GestureService extends Service {
     //id, label, xData, yData, zData, dateAdded
   }
 
-  Future<void> updateGesture(String id, Gesture gesture) async {
+  /*Future<void> addProduct(Gesture gesture) async {
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'userId': gesture.userId,
+            'label': gesture.label,
+            'xData': gesture.xData,
+            'yData': gesture.yData,
+            'zData': gesture.zData,
+            'dateAdded': gesture.dateAdded
+          }));
+    } catch (e) {
+      // TODO
+    }
+  }*/
+
+  /*Future<void> updateGesture(String id, Gesture gesture) async {
     final gestureIndex = _gestures.indexWhere((element) => element.id == id);
     final url = 'https://gesture-collection.firebaseio.com/gestures/$id.json';
     try {
@@ -60,7 +74,6 @@ class GestureService extends Service {
         await http.patch(url,
             body: json.encode({
               'userId': gesture.userId,
-              'id': gesture.id,
               'label': gesture.label,
               'xData': gesture.xData,
               'yData': gesture.yData,
@@ -71,14 +84,14 @@ class GestureService extends Service {
     } catch (e) {
       // TODO
     }
-  }
+  }*/
 
   /*void deleteProduct(String id) {
     _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }*/
 
-  Future<void> deleteGesture(String id) async {
+  /*Future<void> deleteGesture(String id) async {
     final gestureIndex = _gestures.indexWhere((element) => element.id == id);
     final url = 'https://gesture-collection.firebaseio.com/gestures/$id.json';
     var existingGesture = _gestures[gestureIndex];
@@ -89,5 +102,5 @@ class GestureService extends Service {
       _gestures.insert(gestureIndex, existingGesture);
     }
     //notifyListeners();
-  }
+  }*/
 }

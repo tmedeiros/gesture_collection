@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 class Gesture {
   String userId;
-  String id;
   String label;
   String xData;
   String yData;
   String zData;
-  String dateAdded;
+  int dateAdded;
 
-  Gesture(this.userId, this.id, this.label, this.xData, this.yData, this.zData,
+  Gesture(this.userId, this.label, this.xData, this.yData, this.zData,
       this.dateAdded);
 }
