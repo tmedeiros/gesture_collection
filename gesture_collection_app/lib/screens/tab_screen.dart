@@ -24,7 +24,11 @@ class _TabScreenState extends State<TabScreen> {
     GestureScreen(),
   ];*/
   //_TabScreenState({Key key, @required newLabel});
+//_TabScreenState({Key key, @required this.newLabel});
 
+  _TabScreenState(String newLabel) {
+    _newLabel = newLabel;
+  }
   String _newLabel;
 
   String get newLabel => _newLabel;
@@ -36,43 +40,17 @@ class _TabScreenState extends State<TabScreen> {
     });
   }
 
-  //_TabScreenState({Key key, @required this.newLabel});
-  _TabScreenState(String newLabel) {
-    _newLabel = newLabel;
-  }
-
-  String get getNewLabel {
-    setState(() {
-      _newLabel = newLabel;
-    });
-    return _newLabel;
-  }
-
   @override
   void initState() {
     /*setState(() {
       _newLabel = newLabel;
     });*/
-    updatelabels();
     createUser();
     super.initState();
   }
 
-  static const String LABELS = 'labels';
+
   SharedPreferences prefs;
-
-  List<String> get labels => <String>[
-        'Select Label',
-        'Running',
-        'Standing',
-        'Walking',
-        'Walking Upstairs',
-        'Walking Downstairs',
-        'Laying',
-        'Sitting'
-      ];
-
-  set labels(List<String> labels) {}
 
   getPage(String title) {
     final List<Map<String, Object>> _pages = [
@@ -88,16 +66,6 @@ class _TabScreenState extends State<TabScreen> {
     return _pages[_selectedPageIndex][title];
   }
 
-  /*final List<Map<String, Object>> _pages = [
-    {
-      'page': HomeScreen(''),
-      'title': 'Gesture Collection',
-    },
-    {
-      'page': GestureScreen(),
-      'title': 'My Gestures',
-    },
-  ];*/
   int _selectedPageIndex = 0;
   void _selectPage(int index) {
     setState(() {
@@ -134,12 +102,12 @@ class _TabScreenState extends State<TabScreen> {
             BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(Icons.home),
-              title: Text('Home'),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(Icons.bar_chart_sharp),
-              title: Text('My Gestures'),
+              label: 'My Gestures',
             ),
           ],
         ),
@@ -162,28 +130,6 @@ class _TabScreenState extends State<TabScreen> {
         ),
       ),
     );
-  }
-
-  readLabels() async {
-    prefs = await SharedPreferences.getInstance();
-    List<String> _labels = prefs.getStringList(LABELS);
-    setState(() {
-      labels = _labels;
-      _newLabel = newLabel;
-    });
-  }
-
-  Future<void> updatelabels() async {
-    /*setState(() {
-      _newLabel = newLabel;
-    });*/
-    prefs = await SharedPreferences.getInstance();
-    List<String> _labels = prefs.getStringList(LABELS);
-    if (_labels != null) {
-      labels = _labels;
-    } else {
-      prefs.setStringList(LABELS, this.labels);
-    }
   }
 
   Future<void> createUser() async {
