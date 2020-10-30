@@ -5,6 +5,7 @@ import 'package:gesture_collection_app/screens/gesture_screen.dart';
 import 'package:gesture_collection_app/screens/home_screen.dart';
 import 'package:gesture_collection_app/widgets/label_widget.dart';
 import 'package:gesture_collection_app/widgets/new_label_widget_old.dart';
+import 'package:gesture_collection_app/widgets/top_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -77,15 +78,9 @@ class _TabScreenState extends State<TabScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text(
-              //_pages[_selectedPageIndex]['title'],
-              getPage('title'),
-              textAlign: TextAlign.center,
-              style: new TextStyle(fontSize: 32.0),
-            ),
-          ),
+        appBar: TopNavBarWidget(
+          height: 300,
+          title: getPage('title'),
         ),
         //body: _pages[_selectedPageIndex]['page'],
         body: getPage('page'),
