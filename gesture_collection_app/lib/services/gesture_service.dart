@@ -4,50 +4,51 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import 'package:gesture_collection_app/models/gesture.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class GestureService extends Service {
+  final _firebase = FirebaseDatabase.instance.reference();
   static const url = 'https://gesturedata-76273.firebaseio.com/gestures.json';
 
   List<Gesture> _gestures = [];
 
   Future<void> addGesture(Gesture gesture) async {
     try {
-      final response = await http.post(url,
-          body: json.encode({
-            'userId': gesture.userId,
-            'label': gesture.label,
-            'xData': gesture.xData,
-            'yData': gesture.yData,
-            'zData': gesture.zData,
-            'dateAdded': gesture.dateAdded
-          }));
+      _firebase.set({
+        'userId': gesture.userId,
+        'label': gesture.label,
+        'xData': gesture.xData,
+        'yData': gesture.yData,
+        'zData': gesture.zData,
+        'dateAdded': gesture.dateAdded
+      });
     } catch (e) {
-      // TODO
+      // TODO: close
     }
   }
 
-  Future<void> getGestures() async {
+  Future getGestures() async {
     try {
-      final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Gesture> loadedGestures = [];
-      extractedData.forEach((userId, gestureData) {
-        loadedGestures.add(Gesture(
-          userId,
-          gestureData['label'],
-          gestureData['xData'],
-          gestureData['yData'],
-          gestureData['zData'],
-          gestureData['dateAdded'],
-        ));
+      _firebase.child('gestures').once().then((DataSnapshot snapshot) {
+        final List<Gesture> loadedGestures = [];
+        Map<dynamic, dynamic> extractedData = snapshot.value;
+        extractedData.forEach((userId, gestureData) {
+          loadedGestures.add(Gesture(
+            userId,
+            gestureData['label'],
+            gestureData['xData'],
+            gestureData['yData'],
+            gestureData['zData'],
+            gestureData['dateAdded'],
+          ));
+        });
+
+        print('Here is loaded gesture $loadedGestures');
+        return loadedGestures;
       });
-      return loadedGestures;
     } catch (error) {
       throw (error);
     }
-
-    //id, label, xData, yData, zData, dateAdded
   }
 
   /*Future<void> addProduct(Gesture gesture) async {

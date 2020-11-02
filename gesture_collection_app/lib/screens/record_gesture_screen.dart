@@ -69,30 +69,30 @@ class _CountDownTimerState extends State<CountDownTimer>
   // List<MeasuredDataObject> l = [];
   @override
   void initState() {
-    gestureService = new GestureService();
     super.initState();
+    gestureService = new GestureService();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 3),
     )..stop();
   }
 
   @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
+  Widget build(BuildContext mainContext) {
+    ThemeData themeData = Theme.of(mainContext);
     return Scaffold(
       backgroundColor: Colors.white10,
       body: AnimatedBuilder(
           animation: controller,
-          builder: (context, child) {
+          builder: (mainContext, child) {
             return Stack(
               children: <Widget>[
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     color: Colors.white10,
-                    height:
-                        controller.value * MediaQuery.of(context).size.height,
+                    height: controller.value *
+                        MediaQuery.of(mainContext).size.height,
                   ),
                 ),
                 Padding(
@@ -144,9 +144,9 @@ class _CountDownTimerState extends State<CountDownTimer>
                         ),
                       ),
                       AnimatedBuilder(
-                          animation: Tween<double>(begin: 0, end: 5)
+                          animation: Tween<double>(begin: 0, end: 3)
                               .animate(controller),
-                          builder: (context, child) {
+                          builder: (mainContext, child) {
                             return FloatingActionButton.extended(
                                 onPressed: () {
                                   if (controller.isAnimating) {
@@ -170,23 +170,11 @@ class _CountDownTimerState extends State<CountDownTimer>
                                           event.y.toString(),
                                           event.z.toString(),
                                           dateAdded);
-                                      //xyz.add(event.x.toString());
-                                      //xyz.add(event.y.toString());
-                                      //xyz.add(event.z.toString());
-                                      //abc.add(xyz);
-                                      gestureService.addGesture(gesture);
                                       gestures.add(gesture);
-                                      //GestureService.addGesture(gesture);
-                                      /*Provider.of<GestureService>(context,
-                                              listen: false)
-                                          .addProduct(gesture);*/
                                       count++;
-                                      //xyz = [];
-                                      print(count);
                                       if (!controller.isAnimating) {
                                         count = 0;
-                                        //print(abc);
-                                        print(gestures);
+                                        completeDialog(mainContext, gesture);
                                         accel.cancel();
                                         return abc;
                                       }
@@ -201,8 +189,9 @@ class _CountDownTimerState extends State<CountDownTimer>
                                 icon: Icon(controller.isAnimating
                                     ? Icons.stop
                                     : Icons.play_arrow),
-                                label: Text(
-                                    controller.isAnimating ? "Stop" : "Play"));
+                                label: Text(controller.isAnimating
+                                    ? "Stop"
+                                    : "Start Recording"));
                           }),
                     ],
                   ),
@@ -216,6 +205,71 @@ class _CountDownTimerState extends State<CountDownTimer>
       timer?.cancel();
       accel?.cancel();
     }
+  }
+}
+
+void completeDialog(BuildContext context, Gesture gesture) {
+  switch (showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return SimpleDialog(
+          children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('Do you want to save this gesture?'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          print('Cancelled');
+                          Navigator.pop(dialogContext);
+                        },
+                        textColor: Colors.white,
+                        color: Colors.redAccent,
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Text('Cancel',
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          GestureService().addGesture(gesture);
+                          Navigator.pop(dialogContext);
+                        },
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Text('Save',
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      })) {
   }
 }
 
