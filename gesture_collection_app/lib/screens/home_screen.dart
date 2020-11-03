@@ -8,6 +8,7 @@ import 'package:gesture_collection_app/widgets/record_gesture_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = "/home";
   String newLabel;
   HomeScreen({Key key, @required this.newLabel}) : super(key: key);
 

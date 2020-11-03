@@ -3,11 +3,19 @@ import 'package:flutter/material.dart';
 class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final String title;
+  final String backlink;
+  final bool navEnabled;
+  final String forwardLink;
+  final bool actionEnabled;
 
   const TopNavBarWidget({
     Key key,
     @required this.height,
     @required this.title,
+    this.backlink="",
+    this.navEnabled=false,
+    this.actionEnabled=false,
+    this.forwardLink="",
     }) : super(key: key);
 
   @override
@@ -23,12 +31,14 @@ class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
     }
   }
 
-  BackButton getLeading(bool navEnabled)
+  BackButton getLeading(BuildContext context, bool navEnabled)
   {
     if (navEnabled) {
       return BackButton(
           color: Colors.blue,
-          onPressed: null);
+          onPressed:  () {
+        Navigator.of(context).pushNamed(backlink);
+      });
     }
     else {
       return null;
@@ -43,7 +53,7 @@ class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
         Container(
           color: Colors.grey[300],
           child: AppBar(
-            leading: getLeading(true),
+            leading: getLeading(context, this.navEnabled),
             title: Center(
               child: Text(
                 //_pages[_selectedPageIndex]['title'],
@@ -52,17 +62,33 @@ class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 style: new TextStyle(fontSize: 32.0),
               ),
             ),
-            actions:[
-              IconButton(
-                  icon: Icon(
-                    getIcon("test"),
-                    color: Colors.blue,
-                    size: 36.0),
-                  onPressed: null)
-              ],
+            actions:
+              getActions(actionEnabled, forwardLink, context),
             ),
         ),
       ],
     );
+  }
+
+  goBack(String backlink) {
+    //TODO: Implement back navigation
+  }
+
+  List<IconButton> getActions(bool actionEnabled, String forwardLink, BuildContext context) {
+    if (actionEnabled)
+    {
+     IconButton button = IconButton(
+          icon: Icon(
+              getIcon("test"),
+              color: Colors.blue,
+              size: 36.0),
+          onPressed: () {
+            Navigator.of(context).pushNamed(forwardLink);
+          });
+     return [button];
+    }
+    return null;
+
+
   }
 }

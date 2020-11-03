@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class RecordGestureScreen extends StatelessWidget {
+  static const String routeName = "/recordgesture";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
