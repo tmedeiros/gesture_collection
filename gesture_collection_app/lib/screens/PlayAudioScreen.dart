@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/widgets/top_nav_bar.dart';
 
-class PlayAudioScreen extends StatelessWidget {
+class PlayAudioScreen extends StatefulWidget {
   static const String routeName = "/playaudio";
+
+  @override
+  _PlayAudioScreenState createState() => _PlayAudioScreenState();
+}
+
+class _PlayAudioScreenState extends State<PlayAudioScreen> {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => playAudio(context, "exampleaudio.mp3"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,4 +30,9 @@ class PlayAudioScreen extends StatelessWidget {
           )),
     );
   }
+
+  playAudio(BuildContext context, String audioFile) {
+    //#TODO: Play Audio
+  }
+
 }
