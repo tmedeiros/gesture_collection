@@ -30,7 +30,7 @@ class SpeechScreen extends StatelessWidget {
                         minimumSize: Size(300, 150)),
                     child: Text("Speech"),
                     onPressed: () {
-                      Navigator.of(context).pushNamed("/playaudio", arguments: {'navEnabled': true, 'backlink': '/speech'});
+                      Navigator.of(context).pushNamed("/recordgesture", arguments: {'nextLink': '/playaudio'});
                     }),
               )
             ],

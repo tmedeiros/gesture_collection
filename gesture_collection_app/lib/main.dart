@@ -34,6 +34,7 @@ void main() async {
       IndividualGestureScreen.routeName: (BuildContext context) => IndividualGestureScreen(),
       PlayAudioScreen.routeName: (BuildContext context) => PlayAudioScreen(),
 
+
     },
     theme: ThemeData(
       // Define the default brightness and colors.
