@@ -50,6 +50,12 @@ class GestureService extends Service {
     //id, label, xData, yData, zData, dateAdded
   }
 
+  Future<Gesture>  detectGesture(List gestures) async{
+    //TODO: Send accelerometer data to model
+
+    return null;
+  }
+
   /*Future<void> addProduct(Gesture gesture) async {
     try {
       final response = await http.post(url,

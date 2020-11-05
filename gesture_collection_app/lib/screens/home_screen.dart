@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/main.dart';
+import 'package:gesture_collection_app/models/labels.dart';
 import 'package:gesture_collection_app/screens/record_gesture_screen.dart';
 import 'package:gesture_collection_app/widgets/label_widget.dart';
 import 'package:gesture_collection_app/widgets/new_label_widget.dart';
 import 'package:gesture_collection_app/widgets/record_gesture_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = "/home";
   String newLabel;
   HomeScreen({Key key, @required this.newLabel}) : super(key: key);
 
@@ -24,7 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LabelsModel>(
+          create: (final BuildContext context) {
+            return LabelsModel();
+          },
+        ),
+      ],
+      child: Scaffold(
       body: Column(
         //crossAxisAlignment: CrossAxisAlignment.start,
         //mainAxisSize: MainAxisSize.min,
@@ -72,6 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 20),
         ],
       ),
-    );
+    ));
   }
 }

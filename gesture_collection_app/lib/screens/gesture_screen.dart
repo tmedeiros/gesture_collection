@@ -4,6 +4,7 @@ import 'package:gesture_collection_app/services/gesture_service.dart';
 import 'package:provider/provider.dart';
 
 class GestureScreen extends StatefulWidget {
+  static const String routeName = "/gesture";
   String newLabel;
 
   GestureScreen({Key key}) : super(key: key);

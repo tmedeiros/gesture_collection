@@ -12,17 +12,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class RecordGestureScreen extends StatelessWidget {
+  static const String routeName = "/recordgesture";
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CountDownTimer(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        accentColor: Colors.indigo,
-      ),
+    return Scaffold(
+      body: CountDownTimer(),
+      // debugShowCheckedModeBanner: false,
+      // theme: ThemeData(
+      //   iconTheme: IconThemeData(
+      //     color: Colors.white,
+      //   ),
+      //   accentColor: Colors.indigo,
+      // ),
     );
   }
 }
@@ -34,6 +35,8 @@ class CountDownTimer extends StatefulWidget {
 
 class _CountDownTimerState extends State<CountDownTimer>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+
+  String nextLink;
   String selecteLabel = LabelWidget().labelName;
   AnimationController controller;
   @override
@@ -69,16 +72,19 @@ class _CountDownTimerState extends State<CountDownTimer>
   // List<MeasuredDataObject> l = [];
   @override
   void initState() {
+
     gestureService = new GestureService();
     super.initState();
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 5),
-    )..stop();
+    )..addStatusListener((state) => print('$state'))..stop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context).settings.arguments;
+    this.nextLink = args["nextLink"];
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       backgroundColor: Colors.white10,
@@ -188,6 +194,16 @@ class _CountDownTimerState extends State<CountDownTimer>
                                         //print(abc);
                                         print(gestures);
                                         accel.cancel();
+                                        if (this.nextLink == "/playaudio")
+                                          {
+                                            Future<Gesture> detectedGesture= gestureService.detectGesture(gestures);
+                                            Navigator.of(context).pushNamed(this.nextLink, arguments: {'gesture': detectedGesture});
+                                          }
+                                        else {
+                                          Navigator.of(context).pushNamed(this.nextLink);
+                                        }
+
+
                                         return abc;
                                       }
                                     });

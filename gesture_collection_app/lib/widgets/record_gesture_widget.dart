@@ -6,7 +6,7 @@ class RecordGestureWidget extends StatelessWidget {
 
   void _navigateToNextScreen(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RecordGestureScreen()));
+        .pushNamed('/recordgesture', arguments: {'nextLink': '/collect'});
   }
 
   @override
