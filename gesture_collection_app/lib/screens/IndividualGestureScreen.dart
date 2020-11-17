@@ -35,6 +35,7 @@ class IndividualGestureScreen extends StatelessWidget {
         backlink: "/library",
         navEnabled: true,
 
+
       ),
 
       body: Center(
@@ -74,9 +75,9 @@ class IndividualGestureScreen extends StatelessWidget {
         child: Column(
 
           children: [
-            FittedBox(
+            Expanded(
               child: Image.network(data.data()['url'],
-              fit: BoxFit.contain),
+              fit: BoxFit.fill),
             ),
             Divider(),
             Text(
