@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/models/labels.dart';
@@ -15,10 +16,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/record_gesture_screen.dart';
 //import 'screens/recording.dart';
 import 'dart:convert';
+import 'dart:developer';
 
 void main() async {
   // await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  // runApp(MyApp());
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(MaterialApp(
     home: LoadingScreen(),
@@ -31,7 +37,7 @@ void main() async {
       SpeechScreen.routeName: (BuildContext context) => SpeechScreen(),
       SpeechCollectScreen.routeName: (BuildContext context) => SpeechCollectScreen(),
       LibraryScreen.routeName: (BuildContext context) => LibraryScreen(),
-      IndividualGestureScreen.routeName: (BuildContext context) => IndividualGestureScreen(),
+      IndividualGestureScreen.routeName: (BuildContext context) => IndividualGestureScreen(""),
       PlayAudioScreen.routeName: (BuildContext context) => PlayAudioScreen(),
 
 
@@ -54,5 +60,62 @@ void main() async {
       ),
     ),
   ));
+  // runApp(App());
+
 }
+// class App extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder(
+//       // Initialize FlutterFire
+//       future: Firebase.initializeApp(),
+//       builder: (context, snapshot) {
+//         // Check for errors
+//         print(snapshot);
+//         if (snapshot.hasError) {
+//           return SomethingWentWrong();
+//         }
+//
+//         // Once complete, show your application
+//         if (snapshot.connectionState == ConnectionState.done) {
+//           return MyAwesomeApp();
+//         }
+//
+//         // Otherwise, show something whilst waiting for initialization to complete
+//         return Loading();
+//       },
+//     );
+//   }
+// }
+// class App extends StatelessWidget {
+//   // Create the initialization Future outside of `build`:
+//   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // log('data: ');
+//     return FutureBuilder(
+//       // Initialize FlutterFire:
+//       future: _initialization,
+//       builder: (context, snapshot) {
+//         print("\n\n================dasdasdasdasdkasjdajsdkasd");
+//         print(snapshot);
+//         // Check for errors
+//         // if (snapshot.hasError) {
+//         //   return SomethingWentWrong();
+//         // }
+//         //
+//         // // Once complete, show your application
+//         // if (snapshot.connectionState == ConnectionState.done) {
+//         //   return MyAwesomeApp();
+//         // }
+//         //
+//         // // Otherwise, show something whilst waiting for initialization to complete
+//         // return Loading();
+//       },
+//     );
+//   }
+// }
+
+
 
