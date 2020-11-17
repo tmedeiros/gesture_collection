@@ -48,6 +48,8 @@ class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context)
   {
+    double fontSize=this.title.length.toDouble();
+    print(fontSize);
     return Column(
       children:[
         Container(
@@ -59,7 +61,8 @@ class TopNavBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 //_pages[_selectedPageIndex]['title'],
                 this.title,
                 textAlign: TextAlign.center,
-                style: new TextStyle(fontSize: 32.0),
+                style: new TextStyle(fontSize: 23),
+                maxLines: 2,
               ),
             ),
             actions:
