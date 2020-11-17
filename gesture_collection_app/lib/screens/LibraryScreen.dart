@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/screens/IndividualGestureScreen.dart';
 import 'package:gesture_collection_app/widgets/top_nav_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'dart:developer';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
