@@ -37,6 +37,7 @@ dependencies:
   file_picker: ^2.1.0
   assets_audio_player: ^2.0.13+1
   audioplayers: ^0.13.2
+  flutter_tts: 1.0.0
 
   #  logger: ^0.9.4
 
