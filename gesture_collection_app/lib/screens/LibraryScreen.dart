@@ -4,12 +4,12 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/screens/IndividualGestureScreen.dart';
 import 'package:gesture_collection_app/widgets/top_nav_bar.dart';
-import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_database/firebase_database.dart';
 import 'dart:developer';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -85,7 +85,7 @@ class LibraryScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getImage,
-        child: Icon(Icons.add_a_photo),
+        child: Icon(Icons.add_circle_outlined),
       ),
     );
   }
@@ -155,13 +155,22 @@ class LibraryScreen extends StatelessWidget {
     // Get image from gallery.
     // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     // FilePickerResult result = await FilePicker.platform.pickFiles();
+    FilePickerResult result = await FilePicker.platform.pickFiles();
 
+    if(result != null) {
+      File file = File(result.files.single.path);
+      print("image");
+      // print(file);
+      // File image = File('assets/audio/hello.mp3');
+      _uploadImageToFirebase(file);
+    } else {
+      // User canceled the picker
+    }
     // var image = await FilePicker.getFile(type: FileType.audio);
-    final file =  await ImagePicker.pickVideo(source: ImageSource.gallery);
+    // final file =  await ImagePicker.pickVideo(source: ImageSource.gallery);
+    // File file = await FilePicker.getFile();
     // File image = File('assets/audio/hello.mp3');
-    // print("image");
-    // print(image);
-    _uploadImageToFirebase(file);
+
   }
   Future<void> _uploadImageToFirebase(File image) async {
     try {
