@@ -1,8 +1,14 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_collection_app/widgets/top_nav_bar.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'LibraryScreen.dart';
+// AudioPlayer audioPlayer;
+AudioPlayer audioPlayer;
+AssetsAudioPlayer assetsAudioPlayer;
 
 class IndividualGestureScreen extends StatelessWidget {
 
@@ -12,21 +18,11 @@ class IndividualGestureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Map<String, dynamic> userDocumentt;
-    // CollectionReference doc_ref=FirebaseFirestore.instance.collection("gestureLibrary");
-    // Stream<DocumentSnapshot> userP = doc_ref.doc(gestureName).snapshots();
-    // userP.listen((DocumentSnapshot snap) {
-    //   // print(snap);
-    //   userDocumentt = Map.from(snap.data());
-    //   // print("description "+userDocumentt["description"]);
-    // });
-    // print(userDocumentt["description"]);
-    // print(userDocumentt["location"]);
-    // print(userDocumentt["url"]);
-    // print("asdasdasd");
-    // print(userDocumentt);
 
-    // if userDoc
+
+
+
+
     return Scaffold(
       appBar: TopNavBarWidget(
         height: 60,
@@ -65,6 +61,7 @@ class IndividualGestureScreen extends StatelessWidget {
     // final record = Record.fromSnapshot(data);
     print(data.id);
     print(data.data()["location"]);
+    print(data.data()["audo"]);
     // dataJson=data.data();
     return
       Padding(
@@ -87,10 +84,64 @@ class IndividualGestureScreen extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+            Divider(),
+
+            FlatButton.icon(
+              textColor: Colors.white,
+              minWidth: double.infinity,
+              onPressed: () {
+                /*...*/
+                print("Play Gesture");
+                // playAudio(data.data()["audo"]);
+                playAudioFromLocalStorage(data.data()["audio"]);
+              },
+
+              label: Text(
+                "Listen Gesture",
+              ),
+              icon: Icon(Icons.play_circle_outline, size: 23),
+            ),
+            // FlatButton(
+            //   onPressed: () {
+            //     /*...*/
+            //     print("Stop");
+            //     // playAudio(data.data()["audo"]);
+            //     stopAudio();
+            //   },
+            //   child: Text(
+            //     "Stop",
+            //   ),
+            // )
+
           ],
         ),
+
       ),
+
     );
+
+  }
+  playAudioFromLocalStorage(path) async {
+    audioPlayer = AudioPlayer();
+    audioPlayer.setVolume(1);
+    // path="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+    int response = await audioPlayer.play(path);
+    if (response == 1) {
+      // success
+      print("success");
+    } else {
+      print('Some error occured in playing from storage!');
+    }
+    print(audioPlayer.getCurrentPosition());
+  }
+  stopAudio() async {
+    // int response = await audioPlayer.stop();
+    // if (response == 1) {
+    //   // success
+    //
+    // } else {
+    //   print('Some error occured in stopping');
+    // }
   }
 //To retrieve the string
 }

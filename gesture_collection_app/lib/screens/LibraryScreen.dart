@@ -1,5 +1,9 @@
 
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +84,7 @@ class LibraryScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: getImage,
+        onPressed: getImage,
         child: Icon(Icons.add_a_photo),
       ),
     );
@@ -147,47 +151,55 @@ class LibraryScreen extends StatelessWidget {
       ),
     );
   }
-  // Future getImage() async {
-  //   // Get image from gallery.
-  //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-  //   _uploadImageToFirebase(image);
-  // }
-  // Future<void> _uploadImageToFirebase(File image) async {
-  //   try {
-  //     // Make random image name.
-  //     int randomNumber = Random().nextInt(100000);
-  //     String imageLocation = 'images/image${randomNumber}.png';
-  //
-  //     // Upload image to firebase.
-  //     final StorageReference storageReference = FirebaseStorage().ref().child(imageLocation);
-  //     final StorageUploadTask uploadTask = storageReference.putFile(image);
-  //     await uploadTask.onComplete;
-  //     _addPathToDatabase(imageLocation);
-  //   }catch(e){
-  //     print(e.message);
-  //   }
-  // }
-  //
-  // Future<void> _addPathToDatabase(String text) async {
-  //   try {
-  //     // Get image URL from firebase
-  //     final ref = FirebaseStorage().ref().child(text);
-  //     var imageString = await ref.getDownloadURL();
-  //
-  //     // Add location and url to database
-  //     await Firestore.instance.collection('storage').document("hello").setData({'url':imageString , 'location':text});
-  //   }catch(e){
-  //     print(e.message);
-  //     showDialog(
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //             content: Text(e.message),
-  //           );
-  //         }
-  //     );
-  //   }
-  // }
+  Future getImage() async {
+    // Get image from gallery.
+    // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    // FilePickerResult result = await FilePicker.platform.pickFiles();
+
+    // var image = await FilePicker.getFile(type: FileType.audio);
+    final file =  await ImagePicker.pickVideo(source: ImageSource.gallery);
+    // File image = File('assets/audio/hello.mp3');
+    // print("image");
+    // print(image);
+    _uploadImageToFirebase(file);
+  }
+  Future<void> _uploadImageToFirebase(File image) async {
+    try {
+      // Make random image name.
+      int randomNumber = Random().nextInt(100000);
+      String imageLocation = 'images/image${randomNumber}.mp3';
+
+      // Upload image to firebase.
+      final StorageReference storageReference = FirebaseStorage().ref().child(imageLocation);
+      final StorageUploadTask uploadTask = storageReference.putFile(image,StorageMetadata(contentType: 'audio/mp3'));
+      print(uploadTask);
+      await uploadTask.onComplete;
+      _addPathToDatabase(imageLocation);
+    }catch(e){
+      print(e.message);
+    }
+  }
+
+  Future<void> _addPathToDatabase(String text) async {
+    try {
+      // Get image URL from firebase
+      final ref = FirebaseStorage().ref().child(text);
+      var imageString = await ref.getDownloadURL();
+
+      // Add location and url to database
+      await FirebaseFirestore.instance.collection('storage').doc().set({'url':imageString , 'location':text});
+    }catch(e){
+      print(e.message);
+      // showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return AlertDialog(
+      //         content: Text(e.message),
+      //       );
+      //     }
+      // );
+    }
+  }
 }
 // class Record {
 //   final String location;

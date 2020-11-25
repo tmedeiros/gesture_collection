@@ -47,6 +47,7 @@ android {
         // get build ID from continuous integration system
         //versionCode System.getenv('APPCENTER_BUILD_ID').toInteger()
         versionCode appVersionCode
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
